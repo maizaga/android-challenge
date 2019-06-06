@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <import type="android.view.View"/>
+        <import type="com.melichallenge.util.BindingsHelper"/>
+        <variable name="item" type="com.melichallenge.model.ItemHeader"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/searchItemContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <ImageView
+                android:id="@+id/searchItemImage"
+                android:layout_width="@dimen/image_size"
+                android:layout_height="@dimen/image_size"
+                android:layout_margin="@dimen/medium_padding"
+                app:imageLoader="@{item.thumbnail}"
+                app:srcCompat="@android:color/darker_gray"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"/>
+
+        <TextView
+                style="@style/TitleText"
+                android:id="@+id/searchItemTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:text="@{item.title}"
+                android:maxLines="2"
+                android:ellipsize="end"
+                app:layout_constraintStart_toEndOf="@+id/searchItemImage"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="@dimen/medium_padding"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        <TextView
+                style="@style/PriceText"
+                android:id="@+id/searchItemPrice"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/medium_padding"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:text="@{BindingsHelper.formatPrice(item)}"
+                app:layout_constraintTop_toBottomOf="@+id/searchItemTitle"
+                app:layout_constraintStart_toEndOf="@+id/searchItemImage"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        <TextView
+                style="@style/ConditionText"
+                android:id="@+id/searchItemCondition"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@{BindingsHelper.capitalize(item.condition)}"
+                android:layout_marginTop="21dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintStart_toEndOf="@+id/searchItemImage"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/searchItemPrice"/>
+
+        <TextView
+                style="@style/FreeShippingText"
+                android:id="@+id/searchItemFreeShipping"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:text="@string/free_shipping"
+                android:visibility="@{item.freeShipping ? View.VISIBLE : View.GONE}"
+                app:layout_constraintStart_toEndOf="@+id/searchItemImage"
+                app:layout_constraintTop_toBottomOf="@+id/searchItemCondition"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        <View android:layout_width="match_parent" android:layout_height="0.5dp"
+              android:background="@android:color/darker_gray"
+              app:layout_constraintBottom_toBottomOf="parent"
+              app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
+              app:layout_constraintTop_toBottomOf="@id/searchItemFreeShipping"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

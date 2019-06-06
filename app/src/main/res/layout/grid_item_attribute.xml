@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <import type="com.melichallenge.util.BindingsHelper"/>
+        <variable name="attribute" type="com.melichallenge.model.Attribute"/>
+    </data>
+
+    <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        <TextView
+                style="@style/ConditionText"
+                android:id="@+id/attributeName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{BindingsHelper.twoDotsEnd(attribute.name)}"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:layout_marginTop="@dimen/medium_padding"
+                android:layout_marginStart="@dimen/medium_padding"
+                android:layout_marginEnd="@dimen/medium_padding"/>
+
+        <TextView
+                style="@style/ConditionText"
+                android:id="@+id/attributeValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:text="@{attribute.valueName}"
+                android:layout_marginTop="4dp"
+                android:layout_marginStart="@dimen/medium_padding"
+                android:layout_marginEnd="@dimen/medium_padding"/>
+    </LinearLayout>
+</layout>

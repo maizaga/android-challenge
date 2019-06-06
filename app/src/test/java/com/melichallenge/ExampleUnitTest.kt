@@ -1,4 +1,4 @@
-package com.deedles.melichallenge
+package com.melichallenge
 
 import org.junit.Test
 
