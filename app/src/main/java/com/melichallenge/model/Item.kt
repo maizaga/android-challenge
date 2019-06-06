@@ -16,10 +16,8 @@ class Item(
     thumbnail: String,
     freeShipping: Boolean,
     val pictures: ArrayList<Picture>,
-    val initialQuantity: Int,
     val availableQuantity: Int,
     val sellerAddress: SellerAddress,
-    val sellerId: Long,
     val attributes: ArrayList<Attribute>
 ) : ItemHeader(itemId, title, price, currencyId, condition, thumbnail, freeShipping), Parcelable {
     private constructor(p: Parcel): this(
@@ -34,9 +32,7 @@ class Item(
             p.readList(this, Picture::class.java.classLoader)
         },
         p.readInt(),
-        p.readInt(),
         p.readParcelable<SellerAddress>(SellerAddress::class.java.classLoader)!!,
-        p.readLong(),
         arrayListOf<Attribute>().apply {
             p.readList(this, Attribute::class.java.classLoader)
         }
@@ -45,10 +41,8 @@ class Item(
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         super.writeToParcel(parcel, flags)
         parcel.writeList(pictures)
-        parcel.writeInt(initialQuantity)
         parcel.writeInt(availableQuantity)
         parcel.writeParcelable(sellerAddress, flags)
-        parcel.writeLong(sellerId)
         parcel.writeList(attributes)
     }
 

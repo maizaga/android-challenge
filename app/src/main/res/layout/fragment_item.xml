@@ -3,174 +3,201 @@
     <data>
         <import type="com.melichallenge.util.BindingsHelper"/>
         <import type="android.view.View"/>
+        <variable name="viewModel" type="com.melichallenge.viewmodel.ItemViewModel"/>
         <variable name="item" type="com.melichallenge.model.Item"/>
     </data>
 
-    <ScrollView
-            android:id="@+id/itemContainer"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
+    <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent">
+        <androidx.core.widget.NestedScrollView
+                android:id="@+id/itemContainer"
                 android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:context=".ui.ItemFragment">
+
+                <androidx.viewpager.widget.ViewPager
+                        android:id="@+id/itemPicturesPager"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/full_image_size"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:pageListener="@{viewModel.pageChangeListener}"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginStart="8dp" />
+
+                <com.google.android.material.tabs.TabLayout
+                        android:id="@+id/itemPicturesDots"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:tabBackground="@drawable/tab_selector"
+                        app:tabGravity="center"
+                        app:tabIndicatorHeight="0dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginStart="16dp"
+                        app:selectTab="@{viewModel.selectedTab}"
+                        app:layout_constraintBottom_toBottomOf="@+id/itemPicturesPager"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+
+                <TextView
+                        style="@style/ConditionText"
+                        android:id="@+id/itemCondition"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@{BindingsHelper.capitalize(item.condition)}"
+                        app:layout_constraintTop_toBottomOf="@id/itemPicturesPager"
+                        app:layout_constraintStart_toStartOf="parent" android:layout_marginEnd="16dp"
+                        app:layout_constraintEnd_toEndOf="parent" android:layout_marginTop="16dp"
+                        android:layout_marginStart="16dp"/>
+
+                <TextView
+                        style="@style/TitleText"
+                        android:id="@+id/itemTitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="@{item.title}"
+                        android:maxLines="2"
+                        android:ellipsize="end"
+                        app:layout_constraintTop_toBottomOf="@+id/itemCondition"
+                        app:layout_constraintStart_toStartOf="parent" android:layout_marginEnd="16dp"
+                        app:layout_constraintEnd_toEndOf="parent" android:layout_marginTop="16dp"
+                        android:layout_marginStart="16dp"/>
+
+                <TextView
+                        style="@style/PriceText"
+                        android:id="@+id/itemPrice"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@{BindingsHelper.formatPrice(item.currencyId, item.price)}"
+                        app:layout_constraintTop_toBottomOf="@+id/itemTitle" app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginEnd="16dp" app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginTop="16dp" android:layout_marginStart="16dp"/>
+
+                <TextView
+                        style="@style/ConditionText"
+                        android:id="@+id/itemQuantityLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/quantity"
+                        app:layout_constraintTop_toBottomOf="@id/itemPrice"
+                        android:layout_marginStart="@dimen/medium_padding"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="32dp"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+                <Spinner
+                        android:id="@+id/itemQuantity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/itemPrice"
+                        app:layout_constraintStart_toEndOf="@id/itemQuantityLabel"/>
+
+                <View
+                        android:id="@+id/itemFirstSeparator"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="@android:color/darker_gray"
+                        android:layout_marginTop="@dimen/medium_padding"
+                        app:layout_constraintTop_toBottomOf="@id/itemQuantityLabel"/>
+
+                <TextView
+                        style="@style/ConditionText"
+                        android:id="@+id/itemSellerInfo"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/seller_info"
+                        app:layout_constraintTop_toBottomOf="@id/itemFirstSeparator"
+                        android:layout_marginStart="@dimen/medium_padding"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="@dimen/medium_padding"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+
+                <TextView
+                        style="@style/ConditionText"
+                        android:id="@+id/itemLocationLabel"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/location"
+                        app:layout_constraintTop_toBottomOf="@id/itemSellerInfo"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="@dimen/medium_padding"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                        style="@style/ConditionText"
+                        android:id="@+id/itemLocation"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@{BindingsHelper.locationText(item.sellerAddress)}"
+                        android:textStyle="bold"
+                        app:layout_constraintTop_toBottomOf="@id/itemSellerInfo"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="@dimen/medium_padding"
+                        app:layout_constraintStart_toEndOf="@id/itemLocationLabel"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+
+                <TextView
+                        style="@style/FreeShippingText"
+                        android:id="@+id/itemFreeShipping"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:text="@string/free_shipping"
+                        android:visibility="@{item.freeShipping ? View.VISIBLE : View.GONE}"
+                        app:layout_constraintTop_toBottomOf="@id/itemLocationLabel"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+                <View
+                        android:id="@+id/itemSecondSeparator"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="@android:color/darker_gray"
+                        android:layout_marginTop="@dimen/medium_padding"
+                        app:layout_constraintTop_toBottomOf="@id/itemFreeShipping"/>
+
+                <TextView
+                        style="@style/ConditionText"
+                        android:id="@+id/itemAttributesLabel"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/attributes"
+                        app:layout_constraintTop_toBottomOf="@id/itemSecondSeparator"
+                        android:layout_marginStart="@dimen/medium_padding"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="@dimen/medium_padding"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/itemAttributesRv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/medium_padding"
+                        android:nestedScrollingEnabled="false"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/itemAttributesLabel"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <ProgressBar
+                android:id="@+id/itemProgress"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:context=".ui.ItemFragment">
-
-            <androidx.viewpager.widget.ViewPager
-                    android:id="@+id/itemPicturesPager"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/full_image_size"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginEnd="8dp" android:layout_marginStart="8dp"
-                    app:layout_constraintHorizontal_bias="1.0"/>
-
-            <TextView
-                    style="@style/ConditionText"
-                    android:id="@+id/itemCondition"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@{BindingsHelper.capitalize(item.condition)}"
-                    app:layout_constraintTop_toBottomOf="@id/itemPicturesPager"
-                    app:layout_constraintStart_toStartOf="parent" android:layout_marginEnd="16dp"
-                    app:layout_constraintEnd_toEndOf="parent" android:layout_marginTop="16dp"
-                    android:layout_marginStart="16dp"/>
-
-            <TextView
-                    style="@style/TitleText"
-                    android:id="@+id/itemTitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:text="@{item.title}"
-                    android:maxLines="2"
-                    android:ellipsize="end"
-                    app:layout_constraintTop_toBottomOf="@+id/itemCondition"
-                    app:layout_constraintStart_toStartOf="parent" android:layout_marginEnd="16dp"
-                    app:layout_constraintEnd_toEndOf="parent" android:layout_marginTop="16dp"
-                    android:layout_marginStart="16dp"/>
-
-            <TextView
-                    style="@style/PriceText"
-                    android:id="@+id/itemPrice"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@{BindingsHelper.formatPrice(item)}"
-                    app:layout_constraintTop_toBottomOf="@+id/itemTitle" app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginEnd="16dp" app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginTop="16dp" android:layout_marginStart="16dp"/>
-
-            <TextView
-                    style="@style/ConditionText"
-                    android:id="@+id/itemQuantityLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/quantity"
-                    app:layout_constraintTop_toBottomOf="@id/itemPrice"
-                    android:layout_marginStart="@dimen/medium_padding"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="@dimen/medium_padding"
-                    app:layout_constraintStart_toStartOf="parent"/>
-
-            <Spinner
-                    android:id="@+id/itemQuantity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/itemPrice"
-                    app:layout_constraintStart_toEndOf="@id/itemQuantityLabel"/>
-
-            <View
-                    android:id="@+id/itemFirstSeparator"
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="@android:color/darker_gray"
-                    android:layout_marginTop="@dimen/medium_padding"
-                    app:layout_constraintTop_toBottomOf="@id/itemQuantityLabel"/>
-
-            <TextView
-                    style="@style/ConditionText"
-                    android:id="@+id/itemSellerInfo"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/seller_info"
-                    app:layout_constraintTop_toBottomOf="@id/itemFirstSeparator"
-                    android:layout_marginStart="@dimen/medium_padding"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="@dimen/medium_padding"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
-
-            <TextView
-                    style="@style/ConditionText"
-                    android:id="@+id/itemLocationLabel"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/location"
-                    app:layout_constraintTop_toBottomOf="@id/itemSellerInfo"
-                    android:layout_marginStart="32dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="@dimen/medium_padding"
-                    app:layout_constraintStart_toStartOf="parent"/>
-
-            <TextView
-                    style="@style/ConditionText"
-                    android:id="@+id/itemLocation"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/location"
-                    android:textStyle="bold"
-                    app:layout_constraintTop_toBottomOf="@id/itemSellerInfo"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="@dimen/medium_padding"
-                    app:layout_constraintStart_toEndOf="@id/itemLocationLabel"
-                    app:layout_constraintEnd_toEndOf="parent"/>
-
-            <TextView
-                    style="@style/FreeShippingText"
-                    android:id="@+id/itemFreeShipping"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="16dp"
-                    android:text="@string/free_shipping"
-                    android:visibility="@{item.freeShipping ? View.VISIBLE : View.GONE}"
-                    app:layout_constraintTop_toBottomOf="@id/itemLocationLabel"
-                    app:layout_constraintStart_toStartOf="parent"/>
-
-            <View
-                    android:id="@+id/itemSecondSeparator"
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="@android:color/darker_gray"
-                    android:layout_marginTop="@dimen/medium_padding"
-                    app:layout_constraintTop_toBottomOf="@id/itemFreeShipping"/>
-
-            <TextView
-                    style="@style/ConditionText"
-                    android:id="@+id/itemAttributesLabel"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/attributes"
-                    app:layout_constraintTop_toBottomOf="@id/itemSecondSeparator"
-                    android:layout_marginStart="@dimen/medium_padding"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="@dimen/medium_padding"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
-
-            <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/itemAttributesRv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/medium_padding"
-                    app:layout_constraintTop_toBottomOf="@id/itemAttributesLabel"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+                android:layout_gravity="center"
+                android:visibility="@{viewModel.progressLoading ? View.VISIBLE : View.GONE}" />
+    </FrameLayout>
 </layout>

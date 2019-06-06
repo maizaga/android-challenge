@@ -45,8 +45,11 @@ data class Picture(val pictureId: String,
             val sizes = size.split("x")
             val maxSizes = maxSize.split("x")
 
-            return@with Picture(pictureId, url, sizes[0].toInt(), sizes[1].toInt(),
-                maxSizes[0].toInt(), maxSizes[1].toInt())
+            return@with when {
+                sizes.size == 2 && maxSizes.size == 2 -> Picture(pictureId, url, sizes[0].toInt(), sizes[1].toInt(),
+                        maxSizes[0].toInt(), maxSizes[1].toInt())
+                else -> Picture(pictureId, url, 0, 0, 0, 0)
+            }
         }
     }
 }

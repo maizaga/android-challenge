@@ -1,9 +1,11 @@
 package com.melichallenge.viewmodel
 
 import androidx.databinding.ObservableBoolean
+import androidx.databinding.ObservableInt
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.viewpager.widget.ViewPager
 import com.melichallenge.data.ItemsRepository
 import com.melichallenge.model.Item
 import io.reactivex.disposables.CompositeDisposable
@@ -24,6 +26,15 @@ class ItemViewModel @Inject constructor(private val itemsRepository: ItemsReposi
         get() = _errorData
 
     val progressLoading = ObservableBoolean()
+    val selectedTab = ObservableInt()
+
+    val pageChangeListener = object : ViewPager.OnPageChangeListener {
+        override fun onPageScrollStateChanged(state: Int) { }
+        override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) { }
+        override fun onPageSelected(position: Int) {
+            selectedTab.set(position)
+        }
+    }
 
     fun getItem(itemId: String) {
         disposables.add(itemsRepository.getItem(itemId)

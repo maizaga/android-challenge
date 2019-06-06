@@ -16,6 +16,8 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
 
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
+    @Inject
+    lateinit var navigationController: NavigationController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
@@ -23,13 +25,7 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
         setContentView(R.layout.activity_main)
 
         initToolbar()
-
-        supportFragmentManager.findFragmentByTag(SEARCH_TAG) as? SearchFragment ?: run {
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.content, SearchFragment.newInstance(), SEARCH_TAG)
-                .commit()
-        }
+        navigationController.initNavigation()
     }
 
     private fun initToolbar() {
@@ -42,23 +38,10 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
         toolbarTitle.text = title
     }
 
-    fun navigateToItem(itemId: String) {
-        supportFragmentManager.findFragmentByTag(ITEM_TAG) as? ItemFragment ?: run {
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.content, ItemFragment.newInstance(itemId), ITEM_TAG)
-                .addToBackStack(ITEM_TAG)
-                .commit()
-        }
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-    }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-
         when (item.itemId) {
             android.R.id.home -> {
                 onBackPressed()
-                supportActionBar?.setDisplayHomeAsUpEnabled(false)
                 return true
             }
         }
@@ -66,10 +49,10 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun supportFragmentInjector(): DispatchingAndroidInjector<Fragment> = dispatchingAndroidInjector
-
-    companion object {
-        private const val SEARCH_TAG = "searchTag"
-        private const val ITEM_TAG = "itemTag"
+    override fun onBackPressed() {
+        super.onBackPressed()
+        supportActionBar?.setDisplayHomeAsUpEnabled(false)
     }
+
+    override fun supportFragmentInjector(): DispatchingAndroidInjector<Fragment> = dispatchingAndroidInjector
 }

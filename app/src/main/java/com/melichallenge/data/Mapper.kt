@@ -16,15 +16,17 @@ object Mapper {
 
     fun mapItemResponse(itemResponse: ItemResponse): Item = with(itemResponse) {
         Item(itemId, title, price, currencyId, condition, thumbnail, shipping.freeShipping,
-            mapPicturesResponse(pictures), initialQuantity, availableQuantity, SellerAddress.addressFrom(sellerAddress),
-            sellerId, mapAttributes(attributes))
+            mapPicturesResponse(pictures), availableQuantity, SellerAddress.addressFrom(sellerAddress),
+            mapAttributes(attributes))
     }
 
     private fun mapPicturesResponse(picturesResponse: ArrayList<PictureResponse>) = ArrayList(picturesResponse.map {
         Picture.pictureFrom(it)
     })
 
-    private fun mapAttributes(attributesResponse: ArrayList<AttributeResponse>) = ArrayList(attributesResponse.map {
-        Attribute(it.attributeId, it.name, it.valueName)
-    }.filter { it.valueName.isNotEmpty() })
+    private fun mapAttributes(attributesResponse: ArrayList<AttributeResponse>) = ArrayList(attributesResponse.filter {
+        !it.valueName.isNullOrEmpty()
+    }.map {
+        Attribute(it.attributeId, it.name, it.valueName!!)
+    })
 }

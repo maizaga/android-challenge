@@ -15,10 +15,8 @@ data class ItemResponse(
     @SerializedName("thumbnail") val thumbnail: String,
     @SerializedName("shipping") val shipping: Shipping,
     @SerializedName("pictures") val pictures: ArrayList<PictureResponse>,
-    @SerializedName("initial_quantity") val initialQuantity: Int,
     @SerializedName("available_quantity") val availableQuantity: Int,
     @SerializedName("seller_address") val sellerAddress: SellerAddressResponse,
-    @SerializedName("seller_id") val sellerId: Long,
     @SerializedName("attributes") val attributes: ArrayList<AttributeResponse>
 )
 
@@ -41,5 +39,5 @@ data class AddressProperty(
 data class AttributeResponse(
     @SerializedName("id") val attributeId: String,
     @SerializedName("name") val name: String,
-    @SerializedName("value_name") val valueName: String
+    @SerializedName("value_name") val valueName: String?
 )
